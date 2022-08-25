@@ -1,25 +1,17 @@
 @use 'sass:color';
-
 @use '@material/theme/color-palette';
-
-// Svelte Colors!
 @use '@material/theme/index' as theme with (
   $primary: color-palette.$yellow-500,
   $secondary: color-palette.$teal-700,
-  $surface: #000,
-  $background: #000,
+  $surface: color-palette.$teal-700,
+  $background: black,
   $error: color-palette.$red-900
 );
 
+@import 'material-icons/iconfont/material-icons.css';
+
 html,
 body {
-  background-color: theme.$surface;
+  background-color: theme.$background;
   color: theme.$on-surface;
-}
-
-a {
-  color: #40b3ff;
-}
-a:visited {
-  color: color.scale(#40b3ff, $lightness: -35%);
 }

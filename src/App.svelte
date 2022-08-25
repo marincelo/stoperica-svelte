@@ -2,7 +2,9 @@
 <TopAppBar bind:this={topAppBar} variant="short">
   <Row>
     <Section>
-      <button on:click={() => (open = !open)}>Draw</button>
+      <IconButton on:click={() => (open = !open)} class="material-icons">
+        menu
+      </IconButton>
       <Title>Stoperica</Title>
     </Section>
     <Section align="end" toolbar>
@@ -23,6 +25,7 @@
 
 <script>
   import Drawer, { AppContent, Scrim } from '@smui/drawer';
+  import IconButton from '@smui/icon-button';
   import Races from './lib/races/index.svelte';
   import TopAppBar, {
     Row,
@@ -31,6 +34,6 @@
     AutoAdjust,
   } from '@smui/top-app-bar';
 
-  let open = true;
+  let open = false;
   let topAppBar;
 </script>
