@@ -5,7 +5,7 @@
       <IconButton on:click={() => (open = !open)} class="material-icons">
         menu
       </IconButton>
-      <Title>Stoperica</Title>
+      <Image src={logo} />
     </Section>
     <Section align="end" toolbar>
     </Section>
@@ -24,15 +24,12 @@
 </AutoAdjust>
 
 <script>
+  import _, { Image } from '@smui/image-list';
   import Drawer, { AppContent, Scrim } from '@smui/drawer';
   import IconButton from '@smui/icon-button';
+  import logo from './assets/logo.png';
   import Races from './lib/races/index.svelte';
-  import TopAppBar, {
-    Row,
-    Section,
-    Title,
-    AutoAdjust,
-  } from '@smui/top-app-bar';
+  import TopAppBar, { AutoAdjust, Row, Section } from '@smui/top-app-bar';
 
   let open = false;
   let topAppBar;
