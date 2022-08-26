@@ -7,6 +7,10 @@ export default defineConfig({
   plugins: [
     svelte(),
     VitePWA({
+      srcDir: 'src',
+      filename: 'sw.js',
+      strategies: 'injectManifest',
+      injectRegister: 'inline',
       registerType: 'autoUpdate',
       devOptions: { enabled: true },
       workbox: {

@@ -13,7 +13,7 @@
 </TopAppBar>
 <AutoAdjust {topAppBar}>
   <Drawer variant="modal" bind:open>
-    <button>evo me</button>
+    <button on:click={subscribe}>Notifications</button>
   </Drawer>
   <Scrim />
   <AppContent class="app-content">
@@ -28,9 +28,28 @@
   import Drawer, { AppContent, Scrim } from '@smui/drawer';
   import IconButton from '@smui/icon-button';
   import logo from './assets/logo.png';
+  import { onMount } from 'svelte';
   import Races from './lib/races/index.svelte';
   import TopAppBar, { AutoAdjust, Row, Section } from '@smui/top-app-bar';
 
   let open = false;
   let topAppBar;
+  let serviceWorkerRegistration;
+
+  function subscribe() {
+     serviceWorkerRegistration.pushManager.subscribe({
+      applicationServerKey: 'BGL6jnCXZRnGWgUGp5BgbVmhgDR1T4duBdI2whWn4mQf_8KsTcewl9vXABYfez0NwXtg6C5dL6UqzKn1CzJMCwQ',
+      userVisibleOnly: true
+     }).then(console.log);
+  }
+
+
+  onMount(() => {
+    Notification.requestPermission();
+    navigator.serviceWorker.ready.then(registration => {
+      registration.pushManager.getSubscription()
+        .then(console.log);
+      serviceWorkerRegistration = registration;
+    });
+  })
 </script>
