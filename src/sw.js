@@ -1,37 +1,26 @@
-// import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching';
-// import { clientsClaim } from 'workbox-core';
-
-self.addEventListener('install', event => event.waitUntil(self.skipWaiting()));
+self.addEventListener('install', event => {
+  self.skipWaiting();
+  const files = self.__WB_MANIFEST.map(it => it.url).concat(['/']);
+  event.waitUntil(caches.open('v1').then(cache => cache.addAll(files)));
+});
 
 self.addEventListener('activate', event => event.waitUntil(self.clients.claim()));
 
-// cleanupOutdatedCaches();
-
-// precacheAndRoute(self.__WB_MANIFEST);
-
-// self.addEventListener('push', event => {
-//   console.log(event);
-// });
-
-console.log('aaaaaaa');
-
 self.addEventListener('push', (event) => {
-  console.log('aaaaaaa');
   if (!(self.Notification && self.Notification.permission === 'granted')) {
     return;
   }
-  console.log(event);
   event.target.registration.showNotification('RADIDIIDIDID', {
     actions: [{ action: 'akcija', title: 'nu klik' }],
     body: 'Nova urtk stzew',
     data: 'stagod'
   });
 });
-
 self.addEventListener('notificationclick', event => {
-  console.log('klik', event);
-  event.waitUntil(clients.matchAll().then(clients => {
-    console.log(clients[0]);
-    clients[0].navigate('http://www.stoperica.live');
+  event.waitUntil(clients.matchAll().then(windows => {
+    if (!windows.length) {
+      return clients.openWindow('http://localhost:5173/popa');
+    }
+    windows[0].navigate('http://localhost:5173/popa');
   }));
 });
