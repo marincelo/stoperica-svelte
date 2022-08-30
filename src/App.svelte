@@ -13,6 +13,7 @@
 </TopAppBar>
 <AutoAdjust {topAppBar}>
   <Drawer variant="modal" bind:open>
+    <button on:click={showLogin}>Login</button>
     <button on:click={subscribe}>Notifications</button>
     {#if a2hsPrompt}
       <button on:click={a2hs}>A2HS</button>
@@ -42,14 +43,15 @@
 
   function a2hs() {
     a2hsPrompt.prompt();
-    a2hsPrompt.userChoice.then(choiceResult => {
-      if (choiceResult.outcome === 'accepted') {
-        console.log('User accepted the A2HS prompt');
-      } else {
-        console.log('User dismissed the A2HS prompt');
-      }
+    a2hsPrompt.userChoice.then(res => {
+      const hasAccepted = res.outcome === 'accepted';
+      console.log(`User ${hasAccepted ? 'y' : 'n'} accepted the A2HS prompt`);
       a2hsPrompt = null;
     });
+  }
+
+  function showLogin() {
+    console.log('TODO');
   }
 
   function subscribe() {
