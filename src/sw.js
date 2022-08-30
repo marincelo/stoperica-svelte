@@ -6,6 +6,15 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => event.waitUntil(self.clients.claim()));
 
+self.addEventListener('fetch', event => {
+  event.respondWith(caches.open('v1').then(cache => {
+    return fetch(event.request).catch(() => {
+      if (event.request.mode === 'navigate') return cache.match('/');
+      return cache.match(event.request);
+    });
+  }))
+});
+
 self.addEventListener('push', (event) => {
   if (!(self.Notification && self.Notification.permission === 'granted')) {
     return;
@@ -16,6 +25,7 @@ self.addEventListener('push', (event) => {
     data: 'stagod'
   });
 });
+
 self.addEventListener('notificationclick', event => {
   event.waitUntil(clients.matchAll().then(windows => {
     if (!windows.length) {

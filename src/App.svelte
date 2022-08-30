@@ -14,6 +14,9 @@
 <AutoAdjust {topAppBar}>
   <Drawer variant="modal" bind:open>
     <button on:click={subscribe}>Notifications</button>
+    {#if a2hsPrompt}
+      <button on:click={a2hs}>A2HS</button>
+    {/if}
   </Drawer>
   <Scrim />
   <AppContent class="app-content">
@@ -34,7 +37,20 @@
 
   let open = false;
   let topAppBar;
+  let a2hsPrompt;
   let serviceWorkerRegistration;
+
+  function a2hs() {
+    a2hsPrompt.prompt();
+    a2hsPrompt.userChoice.then(choiceResult => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('User accepted the A2HS prompt');
+      } else {
+        console.log('User dismissed the A2HS prompt');
+      }
+      a2hsPrompt = null;
+    });
+  }
 
   function subscribe() {
      serviceWorkerRegistration.pushManager.subscribe({
@@ -43,13 +59,15 @@
      }).then(console.log);
   }
 
-
   onMount(() => {
     Notification.requestPermission();
     navigator.serviceWorker.ready.then(registration => {
-      registration.pushManager.getSubscription()
-        .then(console.log);
+      registration.pushManager.getSubscription().then(console.log);
       serviceWorkerRegistration = registration;
+    });
+    window.addEventListener('beforeinstallprompt', e => {
+      a2hsPrompt = e;
+      console.log(e);
     });
   })
 </script>

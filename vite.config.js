@@ -21,7 +21,7 @@ export default defineConfig({
         short_name: 'Stoperica',
         description: 'MTB timing',
         theme_color: '#ffff00',
-        icons: [{ src: 'logo.png', type: 'image/png' }]
+        icons: [{ src: 'favicon.png', type: 'image/png', sizes: '144x144', }]
       }
     })
   ],
